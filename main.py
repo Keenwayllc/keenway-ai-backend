@@ -29,12 +29,12 @@ openai.api_key = OPENAI_API_KEY
 
 # System prompt that instructs GPT-4 how to behave
 KEENWAY_CONTEXT = """
-You are Hauler, the friendly AI assistant for Keenway, a final-mile delivery service in Los Angeles. 
+You are Keenway AI Assistant, the friendly AI helper for Keenway, a final-mile delivery service in Los Angeles. 
 Answer questions clearly and concisely about Keenway's services, such as fast and reliable delivery of auto parts, 
-retail items, and healthcare supplies. 
+retail items, and healthcare supplies.
 
 ### Important:
-- Do **not** display full URLs.
+- Do **not** display raw URLs.
 - Always format links correctly, like this:
   - **[Login](https://gokeenway.tookan.in/page/login)**
   - **[Sign Up](https://gokeenway.tookan.in/page/register)**
@@ -63,10 +63,9 @@ def scrape_keenway():
 def format_links(response_text):
     """Replace raw URLs with clickable text."""
     replacements = {
-        "https://gokeenway.tookan.in/page/login": "[Login](https://gokeenway.tookan.in/page/login)",
-        "https://gokeenway.tookan.in/page/register": "[Sign Up](https://gokeenway.tookan.in/page/register)",
-        "https://gokeenway.tookan.in/page/register": "[Get Started](https://gokeenway.tookan.in/page/register)",
-        "https://gokeenway.tookan.in/page/order": "[Book A Delivery](https://gokeenway.tookan.in/page/order)"
+        "https://gokeenway.tookan.in/page/login": "**[Login](https://gokeenway.tookan.in/page/login)**",
+        "https://gokeenway.tookan.in/page/register": "**[Sign Up](https://gokeenway.tookan.in/page/register)**",
+        "https://gokeenway.tookan.in/page/order": "**[Book A Delivery](https://gokeenway.tookan.in/page/order)**"
     }
 
     for url, markdown_link in replacements.items():
