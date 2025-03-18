@@ -60,8 +60,8 @@ def chatbot(request: ChatRequest):
         # Combine our system instructions with the live info
         full_context = f"{KEENWAY_CONTEXT}\n\nKeenway Website Info: {live_info}"
 
-        # Use GPT-4 to generate a response based on our context and the user's message
-        response = openai.chat.completions.create(
+        # Corrected OpenAI API call
+        response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": full_context},
