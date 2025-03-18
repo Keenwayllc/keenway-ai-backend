@@ -3,7 +3,19 @@ from pydantic import BaseModel
 import openai
 import os
 
+# 1️⃣ Import CORS middleware
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+# 2️⃣ Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can replace ["*"] with ["https://www.gokeenway.com"] for more security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ChatRequest(BaseModel):
     message: str
