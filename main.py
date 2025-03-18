@@ -14,27 +14,27 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("❌ OpenAI API Key is missing! Set it in your environment variables.")
 
-# Initialize OpenAI Client
-client = openai.OpenAI(api_key=OPENAI_API_KEY)
+# Set OpenAI API Key
+openai.api_key = OPENAI_API_KEY
 
 @app.post("/chatbot")
 async def chatbot(request: ChatRequest):
     try:
         print("✅ Received message:", request.message)  # Debugging log
 
-        response = client.chat.completions.create(
+        response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",  # Use GPT-4 if available
             messages=[{"role": "user", "content": request.message}]
         )
 
         print("✅ Response from OpenAI:", response)  # Debugging log
-        return {"response": response.choices[0].message.content}
+        return {"response": response["choices"][0]["message"]["content"]}
 
-    except openai.AuthenticationError:
+    except openai.error.AuthenticationError:
         print("❌ Invalid OpenAI API Key!")
         return {"error": "Invalid OpenAI API Key. Check your API key."}
 
-    except openai.OpenAIError as e:
+    except openai.error.OpenAIError as e:
         print("❌ OpenAI API Error:", str(e))
         return {"error": f"OpenAI API error: {str(e)}"}
 
