@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 gunicorn
-openai>=1.10.5
+openai>=1.66.0
 requests
 beautifulsoup4
 
