@@ -11,27 +11,26 @@ class ChatRequest(BaseModel):
 # Load OpenAI API Key from Environment Variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Ensure the API key is set
 if not OPENAI_API_KEY:
-    raise ValueError("❌ OpenAI API Key is missing! Set it in your environment variables.")
+    raise ValueError("Missing OpenAI API key! Set OPENAI_API_KEY in environment variables.")
 
-openai.api_key = OPENAI_API_KEY
+# Create OpenAI client (new format)
+client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 @app.post("/chatbot")
 def chatbot(request: ChatRequest):
     try:
-        print("✅ Received message:", request.message)  # Debugging log
+        print("Received message:", request.message)  # Debug log
 
-        # Ensure API key exists
-        if not OPENAI_API_KEY:
-            return {"error": "OpenAI API Key is not set."}
-
-        # Make a request to OpenAI API
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Use GPT-4 if available
+        # Generate response using the new OpenAI format
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",  # Change to "gpt-4" if needed
             messages=[{"role": "user", "content": request.message}]
         )
 
-        return {"response": response["choices"][0]["message"]["content"]}
+        print("Response from OpenAI:", response)  # Debug log
+        return {"response": response.choices[0].message.content}
 
     except openai.AuthenticationError:
         print("❌ Invalid OpenAI API Key!")
@@ -43,4 +42,4 @@ def chatbot(request: ChatRequest):
 
     except Exception as e:
         print("❌ Server Error:", str(e))
-        return {"error": f"Server error: {str(e)}"}
+        return {"error": "Something went wrong on the server. Check logs."}
