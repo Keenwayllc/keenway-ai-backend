@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import openai
 import os
-import requests
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -26,9 +25,13 @@ if not OPENAI_API_KEY:
 
 openai.api_key = OPENAI_API_KEY
 
-# Chatbot system instructions
+# Updated Chatbot system instructions
 KEENWAY_CONTEXT = """
-You are Keenway AI Assistant, a smart chatbot for final-mile delivery services. 
+You are Keenway AI Assistant, a knowledgeable and helpful chatbot for Keenway's final-mile delivery services. 
+Shipments are dispatched from our Los Angeles hub to 48 states across the continental United States (excluding Hawaii and Alaska). 
+We offer a range of services including Final Mile Delivery, Same-Day Delivery, and Scheduled Delivery Services, 
+and support industries such as Automotive, Healthcare, Retail & E-Commerce, Construction & Home Improvement, 
+Nursery & Landscaping, Antique & Specialty Stores, and Aviation.
 Answer questions accurately and concisely, keeping responses clear and helpful.
 Do **not** display full URLs. Use:
   - **[Login](https://gokeenway.tookan.in/page/login)**
